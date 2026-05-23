@@ -1,0 +1,301 @@
+<%- include('partials/header', { extraStyles: '/css/shop.css' }) %>
+
+<div class="payment-page container">
+    <div class="payment-box">
+        <span class="section-tag">Secure Gateway</span>
+        <h1>Secure Payment</h1>
+        
+        <div class="payment-order-summary">
+            <p><strong>Order Number:</strong> <%= order.order_number %></p>
+            <p><strong>Customer Name:</strong> <%= order.customer_name %></p>
+            <p class="payment-amount"><strong>Total Amount to Pay:</strong> <span>₹<%= order.total.toLocaleString('en-IN', { minimumFractionDigits: 2 }) %></span></p>
+        </div>
+
+        <% if (locals.isSimulated) { %>
+            <div class="payment-sandbox-notice">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                <div>
+                    <strong style="display: block; font-size: 1rem; margin-bottom: 2px;">Simulated Sandbox Checkout</strong>
+                    <% if (typeof error !== 'undefined' && error) { %>
+                        <p><%= error %> You can complete this test transaction safely using the simulator below.</p>
+                    <% } else { %>
+                        <p>The standard payment gateway credentials are not configured in this local environment. You can safely complete your test transaction using the interactive simulator below.</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="payment-simulator-layout">
+                <!-- Visual Card Preview -->
+                <div class="payment-card-container">
+                    <div class="payment-card-visual" id="cardVisual">
+                        <div class="payment-card-brand-logo">Zahra's</div>
+                        <div class="payment-card-chip"></div>
+                        <div class="payment-card-number" id="card-num-display">•••• •••• •••• ••••</div>
+                        <div class="payment-card-meta">
+                            <div class="payment-card-holder">
+                                Card Holder
+                                <span id="card-holder-display">CARDHOLDER NAME</span>
+                            </div>
+                            <div class="payment-card-expiry">
+                                Expires
+                                <span id="card-expiry-display">MM/YY</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Simulator Tabs -->
+                <div class="payment-form-area">
+                    <div class="payment-tabs">
+                        <button type="button" class="payment-tab-btn active" id="tab-btn-card">Credit/Debit Card</button>
+                        <button type="button" class="payment-tab-btn" id="tab-btn-upi">UPI Payment</button>
+                    </div>
+
+                    <!-- Card Payment Form -->
+                    <div id="card-tab" class="payment-tab-content active">
+                        <div class="payment-form-group">
+                            <label for="card-num-input">Card Number</label>
+                            <input type="text" id="card-num-input" class="payment-form-control" placeholder="4111 1111 1111 1111" maxlength="19">
+                        </div>
+                        <div class="payment-form-group">
+                            <label for="card-name-input">Cardholder Name</label>
+                            <input type="text" id="card-name-input" class="payment-form-control" placeholder="Jane Doe" maxlength="25">
+                        </div>
+                        <div class="payment-form-row">
+                            <div class="payment-form-group">
+                                <label for="card-exp-input">Expiry Date</label>
+                                <input type="text" id="card-exp-input" class="payment-form-control" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="payment-form-group">
+                                <label for="card-cvv-input">CVV</label>
+                                <input type="password" id="card-cvv-input" class="payment-form-control" placeholder="•••" maxlength="3">
+                            </div>
+                        </div>
+                        <button id="simulate-card-pay-btn" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: var(--space-sm);">Pay with simulated Card</button>
+                    </div>
+
+                    <!-- UPI Payment form -->
+                    <div id="upi-tab" class="payment-tab-content">
+                        <div class="upi-simulation-box">
+                            <div class="upi-qr-placeholder">
+                                <svg width="120" height="120" viewBox="0 0 100 100" fill="none" stroke="var(--clr-primary)" stroke-width="3">
+                                    <rect x="5" y="5" width="25" height="25" rx="3" fill="none" stroke-width="4" />
+                                    <rect x="12" y="12" width="11" height="11" fill="var(--clr-primary)" />
+                                    <rect x="70" y="5" width="25" height="25" rx="3" fill="none" stroke-width="4" />
+                                    <rect x="77" y="12" width="11" height="11" fill="var(--clr-primary)" />
+                                    <rect x="5" y="70" width="25" height="25" rx="3" fill="none" stroke-width="4" />
+                                    <rect x="12" y="77" width="11" height="11" fill="var(--clr-primary)" />
+                                    <line x1="45" y1="10" x2="55" y2="10" stroke-dasharray="4 2" />
+                                    <line x1="45" y1="20" x2="60" y2="20" stroke-dasharray="3 3" />
+                                    <line x1="10" y1="45" x2="10" y2="60" stroke-dasharray="2 2" />
+                                    <line x1="20" y1="45" x2="35" y2="45" stroke-dasharray="4 3" />
+                                    <line x1="45" y1="45" x2="90" y2="45" stroke-dasharray="5 2 2 5" />
+                                    <line x1="45" y1="55" x2="80" y2="55" stroke-dasharray="2 4 4" />
+                                    <line x1="45" y1="65" x2="55" y2="65" />
+                                    <line x1="45" y1="75" x2="90" y2="75" stroke-dasharray="3 3 5" />
+                                    <line x1="45" y1="85" x2="70" y2="85" stroke-dasharray="1 4" />
+                                    <line x1="85" y1="85" x2="95" y2="85" />
+                                    <line x1="75" y1="75" x2="75" y2="95" stroke-dasharray="2 3" />
+                                </svg>
+                            </div>
+                            <div class="upi-details-list">
+                                <p style="margin-bottom: var(--space-xs);">Scan simulated QR code or pay to mock UPI ID:</p>
+                                <p style="font-size: 1.1rem; color: var(--clr-primary);"><strong>zahrascouture@upi</strong></p>
+                            </div>
+                            <button id="simulate-upi-pay-btn" class="btn btn-primary" style="width: 100%; justify-content: center;">Simulate UPI Success</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--space-xl); display: flex; justify-content: center;">
+                <a href="/orders/<%= order.order_number %>/invoice" class="btn btn-secondary" style="border-color: var(--clr-border); color: var(--clr-text);">Go Back to Invoice</a>
+            </div>
+
+            <script>
+                // Switch tabs using class selectors
+                document.getElementById('tab-btn-card').addEventListener('click', function() {
+                    document.getElementById('tab-btn-card').classList.add('active');
+                    document.getElementById('tab-btn-upi').classList.remove('active');
+                    document.getElementById('card-tab').classList.add('active');
+                    document.getElementById('upi-tab').classList.remove('active');
+                });
+
+                document.getElementById('tab-btn-upi').addEventListener('click', function() {
+                    document.getElementById('tab-btn-upi').classList.add('active');
+                    document.getElementById('tab-btn-card').classList.remove('active');
+                    document.getElementById('upi-tab').classList.add('active');
+                    document.getElementById('card-tab').classList.remove('active');
+                });
+
+                // Interactive credit card display
+                document.getElementById('card-num-input').addEventListener('input', function(e) {
+                    let val = e.target.value.replace(/\D/g, '').substr(0, 16);
+                    e.target.value = val.match(/.{1,4}/g)?.join(' ') || '';
+                    let formatted = val.match(/.{1,4}/g)?.join(' ') || '•••• •••• •••• ••••';
+                    document.getElementById('card-num-display').innerText = formatted;
+                });
+                document.getElementById('card-name-input').addEventListener('input', function(e) {
+                    document.getElementById('card-holder-display').innerText = e.target.value.toUpperCase() || 'CARDHOLDER NAME';
+                });
+                document.getElementById('card-exp-input').addEventListener('input', function(e) {
+                    let val = e.target.value.replace(/\D/g, '').substr(0, 4);
+                    if (val.length > 2) {
+                        val = val.substr(0, 2) + '/' + val.substr(2);
+                    }
+                    e.target.value = val;
+                    document.getElementById('card-expiry-display').innerText = val || 'MM/YY';
+                });
+
+                function triggerMockPayment(btnId, type) {
+                    const btn = document.getElementById(btnId);
+                    btn.disabled = true;
+                    btn.innerText = 'Processing simulated payment...';
+                    
+                    fetch('/payment/verify', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            razorpay_payment_id: 'pay_mock_' + type + '_' + Math.random().toString(36).substr(2, 9),
+                            razorpay_order_id: 'order_mock_' + Math.random().toString(36).substr(2, 9),
+                            razorpay_signature: 'mock_signature',
+                            order_number: '<%= order.order_number %>'
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            localStorage.removeItem('zahras_cart');
+                            window.dispatchEvent(new Event('storage'));
+                            window.location.href = data.redirectUrl;
+                        } else {
+                            alert('Simulation failed: ' + (data.error || 'Unknown error'));
+                            btn.disabled = false;
+                            btn.innerText = type === 'card' ? 'Pay with simulated Card' : 'Simulate UPI Success';
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert('Communication error during simulation.');
+                        btn.disabled = false;
+                        btn.innerText = type === 'card' ? 'Pay with simulated Card' : 'Simulate UPI Success';
+                    });
+                }
+
+                document.getElementById('simulate-card-pay-btn').onclick = function() {
+                    triggerMockPayment('simulate-card-pay-btn', 'card');
+                };
+                document.getElementById('simulate-upi-pay-btn').onclick = function() {
+                    triggerMockPayment('simulate-upi-pay-btn', 'upi');
+                };
+            </script>
+        <% } else { %>
+            <div class="payment-loading-state" id="paymentLoading">
+                <div class="spinner"></div>
+                <p style="margin-top: var(--space-md);">Opening secure payment gateway. Please wait...</p>
+                <button id="rzp-button1" class="btn btn-primary" style="margin-top: var(--space-md); display: none;">Open Payment Window Manually</button>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<% if (typeof razorpayOrderId !== 'undefined' && razorpayOrderId) { %>
+    <!-- Razorpay Checkout Integration -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const options = {
+                "key": "<%= razorpayKeyId %>",
+                "amount": "<%= amountInPaise %>",
+                "currency": "INR",
+                "name": "Zahra's Couture",
+                "description": "Order No: <%= order.order_number %>",
+                "image": "/images/uploads/hero_banner.png", // logo or visual
+                "order_id": "<%= razorpayOrderId %>",
+                "handler": function (response){
+                    // Show loading overlay
+                    document.getElementById('paymentLoading').innerHTML = `
+                        <div class="spinner"></div>
+                        <p>Verifying payment. Please do not close or refresh this page...</p>
+                    `;
+
+                    // Post details to verification route
+                    fetch('/payment/verify', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_signature: response.razorpay_signature,
+                            order_number: "<%= order.order_number %>"
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Clear Shopping Cart in Local Storage
+                            localStorage.removeItem('zahras_cart');
+                            window.dispatchEvent(new Event('storage'));
+                            
+                            // Redirect to Printable Receipt page
+                            window.location.href = data.redirectUrl;
+                        } else {
+                            alert('Payment verification failed: ' + (data.error || 'Unknown error'));
+                            window.location.reload();
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert('A communication error occurred during payment verification. Please contact support.');
+                    });
+                },
+                "prefill": {
+                    "name": "<%= order.customer_name %>",
+                    "email": "<%= order.customer_email %>",
+                    "contact": "<%= order.customer_phone %>"
+                },
+                "theme": {
+                    "color": "#7B2D4E"
+                },
+                "modal": {
+                    "ondismiss": function(){
+                        document.getElementById('paymentLoading').innerHTML = `
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--clr-accent)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            <p style="margin-top:var(--space-sm);">Payment window closed by user.</p>
+                            <button id="rzp-button-retry" class="btn btn-primary" style="margin-top:var(--space-md);">Retry Payment</button>
+                        `;
+                        
+                        document.getElementById('rzp-button-retry').onclick = () => {
+                            window.location.reload();
+                        };
+                    }
+                }
+            };
+            
+            const rzp1 = new Razorpay(options);
+            
+            rzp1.on('payment.failed', function (response){
+                alert('Payment Failed: ' + response.error.description);
+            });
+            
+            // Automatically open payment modal on load
+            rzp1.open();
+            
+            // Fallback button reveal if it doesn't auto-open
+            const manualBtn = document.getElementById('rzp-button1');
+            if (manualBtn) {
+                manualBtn.style.display = 'inline-block';
+                manualBtn.onclick = function(e){
+                    rzp1.open();
+                    e.preventDefault();
+                }
+            }
+        });
+    </script>
+<% } %>
+
+<%- include('partials/footer') %>

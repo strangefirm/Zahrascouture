@@ -1,0 +1,526 @@
+{
+  "admins": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "$2a$10$q5Dr.VV2cT.DFt2Ca8FoEOTwN80DaFVy0f7zye9i.lRfmvalfqqdS"
+    }
+  ],
+  "products": [
+    {
+      "id": 2,
+      "name": "Emerald Green Anarkali Suit",
+      "category": "anarkali",
+      "description": "Flowing floor-length elegance for weddings and celebrations. Exquisite thread and sequin work on pure silk.",
+      "price": 2499,
+      "stock": {
+        "S": 5,
+        "M": 5,
+        "L": 1,
+        "XL": 5
+      },
+      "weight": 800,
+      "size": "S,M,L,XL",
+      "color": "Emerald Green",
+      "fabric": "Silk",
+      "image": "collection_anarkali.png",
+      "is_active": 1,
+      "created_at": "2026-05-22T16:51:37.009Z",
+      "updated_at": "2026-05-22T19:26:05.919Z"
+    },
+    {
+      "id": 3,
+      "name": "Royal Blue Palazzo Set",
+      "category": "palazzo",
+      "description": "Contemporary comfort meets ethnic charm. A gorgeous palazzo suit set in royal blue with detailed silver embroidery.",
+      "price": 1599,
+      "stock": {
+        "S": 0,
+        "M": 5,
+        "L": 3,
+        "XL": 5,
+        "XXL": 5
+      },
+      "weight": 500,
+      "size": "M,L,XL,XXL",
+      "color": "Royal Blue",
+      "fabric": "Rayon Blend",
+      "image": "collection_palazzo.png",
+      "is_active": 1,
+      "created_at": "2026-05-22T16:51:37.009Z",
+      "updated_at": "2026-05-22T19:33:27.877Z"
+    },
+    {
+      "id": 4,
+      "name": "burgundy",
+      "category": "salwar",
+      "description": "gfjgkk",
+      "price": 2000,
+      "stock": {
+        "S": 1,
+        "M": 1,
+        "L": 1,
+        "XL": 1,
+        "XXL": 1
+      },
+      "weight": 500,
+      "size": "S,M,L,XL,XXL",
+      "color": "",
+      "fabric": "",
+      "image": "product-1779470006994-855073873.jpg",
+      "is_active": 1,
+      "created_at": "2026-05-22T17:13:26.997Z",
+      "updated_at": "2026-05-22T18:53:19.395Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "order_number": "ZC-20260522-0001",
+      "customer_name": "Test Customer",
+      "customer_phone": "9876543210",
+      "customer_email": "test@zahrascouture.com",
+      "customer_address": "123 Test Street, Nungambakkam",
+      "city": "Chennai",
+      "pincode": "600034",
+      "subtotal": 3798,
+      "shipping": 120,
+      "total": 3918,
+      "status": "paid",
+      "payment_id": "pay_mock_7e80zaxm0",
+      "payment_status": "completed",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 1,
+          "product_name": "Burgundy Elegance Salwar Kameez",
+          "quantity": 2,
+          "size": "L",
+          "price": 1899
+        }
+      ],
+      "created_at": "2026-05-22T17:48:55.532Z"
+    },
+    {
+      "id": 2,
+      "order_number": "ZC-20260522-0002",
+      "customer_name": "suha",
+      "customer_phone": "8148984134",
+      "customer_email": "suha@gmail.com",
+      "customer_address": "sjhfkjhs",
+      "city": "chennai",
+      "pincode": "248989",
+      "subtotal": 2000,
+      "shipping": 50,
+      "total": 2050,
+      "status": "pending",
+      "payment_id": "",
+      "payment_status": "pending",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 4,
+          "product_name": "burgundy",
+          "quantity": 1,
+          "size": "XL",
+          "price": 2000
+        }
+      ],
+      "created_at": "2026-05-22T18:00:30.377Z"
+    },
+    {
+      "id": 3,
+      "order_number": "ZC-20260522-0003",
+      "customer_name": "gdg",
+      "customer_phone": "9879879",
+      "customer_email": "hhkk@gmail.com",
+      "customer_address": "hlkj",
+      "city": "ljl",
+      "pincode": "535353",
+      "subtotal": 2000,
+      "shipping": 50,
+      "total": 2050,
+      "status": "paid",
+      "payment_id": "pay_mock_x415rqoyv",
+      "payment_status": "completed",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 4,
+          "product_name": "burgundy",
+          "quantity": 1,
+          "size": "XL",
+          "price": 2000
+        }
+      ],
+      "created_at": "2026-05-22T18:01:33.864Z"
+    },
+    {
+      "id": 4,
+      "order_number": "ZC-20260522-0004",
+      "customer_name": "Test Customer",
+      "customer_phone": "9876543210",
+      "customer_email": "test@zahrascouture.com",
+      "customer_address": "123 Test Street, Nungambakkam",
+      "city": "Chennai",
+      "pincode": "600034",
+      "subtotal": 3798,
+      "shipping": 120,
+      "total": 3918,
+      "status": "paid",
+      "payment_id": "pay_mock_mgvl6upij",
+      "payment_status": "completed",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 1,
+          "product_name": "Burgundy Elegance Salwar Kameez",
+          "quantity": 2,
+          "size": "L",
+          "price": 1899
+        }
+      ],
+      "created_at": "2026-05-22T18:33:42.842Z"
+    },
+    {
+      "id": 5,
+      "order_number": "ZC-20260522-0005",
+      "customer_name": "suha",
+      "customer_phone": "878767676",
+      "customer_email": "suha@gmail.com",
+      "customer_address": "dsaada",
+      "city": "hkkj",
+      "pincode": "677862",
+      "subtotal": 4000,
+      "shipping": 100,
+      "total": 4100,
+      "status": "paid",
+      "payment_id": "pay_mock_86gxcwskw",
+      "payment_status": "completed",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 4,
+          "product_name": "burgundy",
+          "quantity": 1,
+          "size": "XL",
+          "price": 2000
+        },
+        {
+          "product_id": 4,
+          "product_name": "burgundy",
+          "quantity": 1,
+          "size": "S",
+          "price": 2000
+        }
+      ],
+      "created_at": "2026-05-22T18:36:47.814Z"
+    },
+    {
+      "id": 6,
+      "order_number": "ZC-20260522-0006",
+      "customer_name": "hjkj",
+      "customer_phone": "khkhk",
+      "customer_email": "kjhkhkh@kkjhsdh.com",
+      "customer_address": "kjhkjh",
+      "city": "kjhkj",
+      "pincode": "321313",
+      "subtotal": 2000,
+      "shipping": 50,
+      "total": 2050,
+      "status": "paid",
+      "payment_id": "",
+      "payment_status": "pending",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 4,
+          "product_name": "burgundy",
+          "quantity": 1,
+          "size": "S",
+          "price": 2000
+        }
+      ],
+      "created_at": "2026-05-22T18:46:59.072Z"
+    },
+    {
+      "id": 7,
+      "order_number": "ZC-20260522-0007",
+      "customer_name": "suha",
+      "customer_phone": "43232432",
+      "customer_email": "cv@malkad",
+      "customer_address": "dgfdffggdfg",
+      "city": "vcvcb",
+      "pincode": "343242",
+      "subtotal": 2000,
+      "shipping": 50,
+      "total": 2050,
+      "status": "paid",
+      "payment_id": "pay_mock_upi_1adcszrzc",
+      "payment_status": "completed",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 4,
+          "product_name": "burgundy",
+          "quantity": 1,
+          "size": "S",
+          "price": 2000
+        }
+      ],
+      "created_at": "2026-05-22T18:52:48.756Z"
+    },
+    {
+      "id": 8,
+      "order_number": "ZC-20260522-0008",
+      "customer_name": "Test Customer",
+      "customer_phone": "9876543210",
+      "customer_email": "test@zahrascouture.com",
+      "customer_address": "123 Test Street, Nungambakkam",
+      "city": "Chennai",
+      "pincode": "600034",
+      "subtotal": 4998,
+      "shipping": 160,
+      "total": 5158,
+      "total_weight": 1600,
+      "status": "paid",
+      "payment_id": "pay_mock_ofps2iuu0",
+      "payment_status": "completed",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 2,
+          "product_name": "Emerald Green Anarkali Suit",
+          "quantity": 2,
+          "size": "L",
+          "price": 2499
+        }
+      ],
+      "created_at": "2026-05-22T19:00:21.877Z"
+    },
+    {
+      "id": 9,
+      "order_number": "ZC-20260522-0009",
+      "customer_name": "khkk",
+      "customer_phone": "khkhkkh",
+      "customer_email": "kkh@gmail.com",
+      "customer_address": "khkjh",
+      "city": "kjhkjh",
+      "pincode": "232323",
+      "subtotal": 2000,
+      "shipping": 50,
+      "total": 2050,
+      "total_weight": 500,
+      "status": "pending",
+      "payment_id": "",
+      "payment_status": "pending",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 4,
+          "product_name": "burgundy",
+          "quantity": 1,
+          "size": "S",
+          "price": 2000
+        }
+      ],
+      "created_at": "2026-05-22T19:03:58.581Z"
+    },
+    {
+      "id": 10,
+      "order_number": "ZC-20260522-0010",
+      "customer_name": "hhk",
+      "customer_phone": "ljlklkjh",
+      "customer_email": "kjh@gmail.com",
+      "customer_address": "kn,n,",
+      "city": ",mnn",
+      "pincode": "312312",
+      "subtotal": 4998,
+      "shipping": 160,
+      "total": 5158,
+      "total_weight": 1600,
+      "status": "paid",
+      "payment_id": "",
+      "payment_status": "pending",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 2,
+          "product_name": "Emerald Green Anarkali Suit",
+          "quantity": 2,
+          "size": "S",
+          "price": 2499
+        }
+      ],
+      "created_at": "2026-05-22T19:12:01.990Z"
+    },
+    {
+      "id": 11,
+      "order_number": "ZC-20260522-0011",
+      "customer_name": "wehkhkjhkjh`kjhkjh`",
+      "customer_phone": "kjkjhk",
+      "customer_email": "kjkj@jdlldgf",
+      "customer_address": "kj",
+      "city": "kjkjj",
+      "pincode": "242243",
+      "subtotal": 7497,
+      "shipping": 240,
+      "total": 7737,
+      "total_weight": 2400,
+      "status": "paid",
+      "payment_id": "",
+      "payment_status": "completed",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 2,
+          "product_name": "Emerald Green Anarkali Suit",
+          "quantity": 3,
+          "size": "S",
+          "price": 2499
+        }
+      ],
+      "created_at": "2026-05-22T19:18:26.752Z"
+    },
+    {
+      "id": 12,
+      "order_number": "ZC-20260522-0012",
+      "customer_name": "Test Customer",
+      "customer_phone": "9876543210",
+      "customer_email": "test@zahrascouture.com",
+      "customer_address": "123 Test Street, Nungambakkam",
+      "city": "Chennai",
+      "pincode": "600034",
+      "subtotal": 3198,
+      "shipping": 100,
+      "total": 3298,
+      "total_weight": 1000,
+      "status": "paid",
+      "payment_id": "pay_mock_gg9xgmyyo",
+      "payment_status": "completed",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 3,
+          "product_name": "Royal Blue Palazzo Set",
+          "quantity": 2,
+          "size": "L",
+          "price": 1599
+        }
+      ],
+      "created_at": "2026-05-22T19:24:43.485Z"
+    },
+    {
+      "id": 13,
+      "order_number": "ZC-20260522-0013",
+      "customer_name": "Test Customer",
+      "customer_phone": "9876543210",
+      "customer_email": "test@zahrascouture.com",
+      "customer_address": "123 Test Street, Nungambakkam",
+      "city": "Chennai",
+      "pincode": "600034",
+      "subtotal": 4998,
+      "shipping": 160,
+      "total": 5158,
+      "total_weight": 1600,
+      "status": "paid",
+      "payment_id": "pay_mock_9dlp4q5i1",
+      "payment_status": "completed",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 2,
+          "product_name": "Emerald Green Anarkali Suit",
+          "quantity": 2,
+          "size": "L",
+          "price": 2499
+        }
+      ],
+      "created_at": "2026-05-22T19:25:54.227Z"
+    },
+    {
+      "id": 14,
+      "order_number": "ZC-20260522-0014",
+      "customer_name": "Test Customer",
+      "customer_phone": "9876543210",
+      "customer_email": "test@zahrascouture.com",
+      "customer_address": "123 Test Street, Nungambakkam",
+      "city": "Chennai",
+      "pincode": "600034",
+      "subtotal": 4998,
+      "shipping": 160,
+      "total": 5158,
+      "total_weight": 1600,
+      "status": "paid",
+      "payment_id": "pay_mock_go0d4jdek",
+      "payment_status": "completed",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 2,
+          "product_name": "Emerald Green Anarkali Suit",
+          "quantity": 2,
+          "size": "L",
+          "price": 2499
+        }
+      ],
+      "created_at": "2026-05-22T19:26:05.917Z"
+    },
+    {
+      "id": 15,
+      "order_number": "ZC-20260522-0015",
+      "customer_name": "d",
+      "customer_phone": "jhjh",
+      "customer_email": "jkhj@jslkjfs",
+      "customer_address": "jh",
+      "city": "jqj",
+      "pincode": "121312",
+      "subtotal": 2000,
+      "shipping": 50,
+      "total": 2050,
+      "total_weight": 500,
+      "status": "pending",
+      "payment_id": "",
+      "payment_status": "pending",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 4,
+          "product_name": "burgundy",
+          "quantity": 1,
+          "size": "XL",
+          "price": 2000
+        }
+      ],
+      "created_at": "2026-05-22T19:28:52.043Z"
+    },
+    {
+      "id": 16,
+      "order_number": "ZC-20260522-0016",
+      "customer_name": "Test Customer",
+      "customer_phone": "9876543210",
+      "customer_email": "test@zahrascouture.com",
+      "customer_address": "123 Test Street, Nungambakkam",
+      "city": "Chennai",
+      "pincode": "600034",
+      "subtotal": 3198,
+      "shipping": 100,
+      "total": 3298,
+      "total_weight": 1000,
+      "status": "paid",
+      "payment_id": "pay_mock_b29f8m505",
+      "payment_status": "completed",
+      "razorpay_order_id": "",
+      "items": [
+        {
+          "product_id": 3,
+          "product_name": "Royal Blue Palazzo Set",
+          "quantity": 2,
+          "size": "L",
+          "price": 1599
+        }
+      ],
+      "created_at": "2026-05-22T19:33:27.873Z"
+    }
+  ]
+}

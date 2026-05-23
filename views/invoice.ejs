@@ -1,0 +1,157 @@
+<%- include('partials/header', { extraStyles: '/css/shop.css' }) %>
+
+<div class="invoice-wrapper">
+    <!-- Invoice Header -->
+    <div class="invoice-header">
+        <div class="invoice-brand">
+            Zahra's <span>Couture</span>
+            <p style="font-family: var(--font-body); font-size: 0.88rem; font-weight: normal; color: var(--clr-text-muted); margin-top: 4px;">
+                Premium Women's Ethnic Wear<br>
+                Tamil Nadu, India<br>
+                zahrascouture@gmail.com<br>
+                +91 89391 90164
+            </p>
+        </div>
+        <div class="invoice-title-block">
+            <h1>INVOICE</h1>
+            <p style="font-size: 0.9rem; color: var(--clr-text-muted);"><strong>Invoice No:</strong> <%= order.order_number %></p>
+            <p style="font-size: 0.9rem; color: var(--clr-text-muted);"><strong>Date:</strong> <%= new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) %></p>
+            <p style="font-size: 0.9rem; color: var(--clr-text-muted);"><strong>Status:</strong> <span class="badge badge-<%= order.status %>" style="display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; background: <%= order.status === 'paid' ? 'rgba(37, 211, 102, 0.15)' : 'rgba(201, 165, 92, 0.15)' %>; color: <%= order.status === 'paid' ? 'var(--clr-whatsapp-dark)' : 'var(--clr-primary)' %>;"><%= order.status.toUpperCase() %></span></p>
+        </div>
+    </div>
+
+    <!-- Billing Info -->
+    <div class="invoice-meta-grid">
+        <div class="invoice-address-block">
+            <h3>Billing & Shipping To:</h3>
+            <p>
+                <strong><%= order.customer_name %></strong><br>
+                <%= order.customer_address %><br>
+                <%= order.city %> - <%= order.pincode %><br>
+                <strong>Phone:</strong> <%= order.customer_phone %>
+                <% if (order.customer_email) { %><br><strong>Email:</strong> <%= order.customer_email %><% } %>
+            </p>
+        </div>
+        <div class="invoice-address-block" style="text-align: right;">
+            <h3>Payment Method:</h3>
+            <p>
+                WhatsApp Manual Confirmation<br>
+                Admin will verify stock & send payment link<br>
+                Transaction currency: INR (₹)
+            </p>
+        </div>
+    </div>
+
+    <!-- Table of Items -->
+    <table class="invoice-details-table">
+        <thead>
+            <tr>
+                <th>Item Description</th>
+                <th>Size</th>
+                <th style="text-align: center;">Qty</th>
+                <th style="text-align: right;">Unit Price</th>
+                <th style="text-align: right;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% order.items.forEach(item => { %>
+                <tr>
+                    <td><strong><%= item.product_name %></strong></td>
+                    <td style="font-weight: 500;"><%= item.size %></td>
+                    <td style="text-align: center;"><%= item.quantity %></td>
+                    <td style="text-align: right;">₹<%= item.price.toLocaleString('en-IN', { minimumFractionDigits: 2 }) %></td>
+                    <td style="text-align: right; font-weight: 600;">₹<%= (item.price * item.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 }) %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <!-- Totals Section -->
+    <div class="invoice-totals-section">
+        <div class="invoice-totals-box">
+            <div class="summary-row" style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; color: var(--clr-text-muted);">
+                <span>Subtotal</span>
+                <span>₹<%= order.subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 }) %></span>
+            </div>
+            <div class="summary-row" style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; color: var(--clr-text-muted);">
+                <span>Weight-based Shipping</span>
+                <span>₹<%= order.shipping.toLocaleString('en-IN', { minimumFractionDigits: 2 }) %></span>
+            </div>
+            <div class="summary-row total-row" style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: bold; border-top: 1px solid var(--clr-border); padding-top: 8px; margin-top: 8px; color: var(--clr-primary);">
+                <span>Total Amount</span>
+                <span>₹<%= order.total.toLocaleString('en-IN', { minimumFractionDigits: 2 }) %></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="invoice-actions no-print">
+        <% if (order.status === 'pending') { %>
+            <button id="btn-whatsapp" class="btn btn-whatsapp" style="background: var(--clr-whatsapp); color: #fff; border-radius: var(--radius-sm); padding: 12px 28px; box-shadow: var(--shadow-md); border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-family: var(--font-body); font-size: 0.95rem; transition: background var(--transition-fast), transform var(--transition-fast);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436.002 9.858-4.419 9.86-9.86.001-2.636-1.02-5.115-2.875-6.973-1.854-1.859-4.329-2.881-6.963-2.882-5.437 0-9.86 4.417-9.863 9.858-.001 1.762.463 3.483 1.345 5.012l-.995 3.636 3.738-.98c1.54.838 3.1 1.278 4.763 1.278zm10.744-7.398c-.295-.148-1.748-.863-2.018-.962-.27-.099-.467-.148-.662.148-.195.297-.757.962-.927 1.16-.17.196-.341.221-.637.073-1.18-.59-1.961-1.025-2.737-2.357-.2-.345.2-.32.571-1.062.098-.198.049-.371-.025-.52-.074-.148-.662-1.596-.907-2.189-.239-.575-.48-.497-.662-.506-.17-.008-.367-.01-.563-.01-.197 0-.518.073-.789.371-.271.297-1.033 1.014-1.033 2.473s1.062 2.871 1.21 3.069c.148.198 2.096 3.2 5.077 4.49.71.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.748-.714 1.993-1.402.245-.688.245-1.277.172-1.402-.073-.125-.268-.198-.563-.347z"/>
+                </svg>
+                Submit Order via WhatsApp
+            </button>
+        <% } else if (order.status === 'paid') { %>
+            <a href="/orders/<%= order.order_number %>/receipt" class="btn" style="background: var(--clr-whatsapp); color: #fff; border-radius: var(--radius-sm); padding: 12px 28px; box-shadow: var(--shadow-md);">
+                View Paid Receipt
+            </a>
+        <% } %>
+        <a href="/" style="align-self: center; font-size: 0.9rem; color: var(--clr-text-muted); text-decoration: underline; margin-left: 16px;">Cancel and Go Back</a>
+    </div>
+</div>
+
+<style>
+.btn-whatsapp:hover {
+    background: var(--clr-whatsapp-dark) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg) !important;
+}
+.btn-whatsapp:active {
+    transform: translateY(0);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('btn-whatsapp');
+    if (btn) {
+        btn.addEventListener('click', () => {
+            const adminPhone = '918939190164';
+            const order = <%- JSON.stringify(order) %>;
+
+            // Format weight
+            let weightStr = 'N/A';
+            if (order.total_weight > 0) {
+                weightStr = order.total_weight >= 1000 ? (order.total_weight / 1000).toFixed(2) + ' kg' : order.total_weight + ' g';
+            }
+
+            // Items list
+            const itemsText = order.items.map(item => `- ${item.product_name} (Size: ${item.size}, Qty: ${item.quantity}) - ₹${(item.price * item.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`).join('\n');
+            const invoiceUrl = `${window.location.origin}/orders/${order.order_number}/invoice`;
+
+            // Construct the message
+            const message = `🌸 *New Order from Zahra's Couture* 🌸\n` +
+                `----------------------------------\n` +
+                `*Order Number:* ${order.order_number}\n` +
+                `*Customer Name:* ${order.customer_name}\n` +
+                `*Phone:* ${order.customer_phone}\n` +
+                `*Address:* ${order.customer_address}, ${order.city} - ${order.pincode}\n\n` +
+                `*Order Summary:*\n${itemsText}\n\n` +
+                `*Subtotal:* ₹${order.subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}\n` +
+                `*Shipping (Weight: ${weightStr}):* ₹${order.shipping.toLocaleString('en-IN', { minimumFractionDigits: 2 })}\n` +
+                `*Total Amount:* ₹${order.total.toLocaleString('en-IN', { minimumFractionDigits: 2 })}\n\n` +
+                `*Invoice Link:* ${invoiceUrl}\n\n` +
+                `Please confirm availability and send the payment link. Thank you!`;
+
+            // Encode and navigate
+            const encodedText = encodeURIComponent(message);
+            const waUrl = `https://wa.me/${adminPhone}?text=${encodedText}`;
+            window.open(waUrl, '_blank');
+        });
+    }
+});
+</script>
+
+<%- include('partials/footer') %>

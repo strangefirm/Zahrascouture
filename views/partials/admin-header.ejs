@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : "Admin Portal — Zahra's Couture" %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+
+    <!-- Admin Top Nav -->
+    <header class="admin-topbar">
+        <div class="admin-container topbar-flex">
+            <a href="/admin/dashboard" class="admin-logo">Zahra's <span>Couture</span> <small>Admin</small></a>
+            
+            <nav class="admin-nav">
+                <a href="/admin/dashboard">Dashboard</a>
+                <a href="/admin/products">Products (Sheet)</a>
+                <a href="/admin/orders">Orders</a>
+                <a href="/" target="_blank" class="store-link">View Public Store ↗</a>
+                <a href="/admin/logout" class="logout-btn">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="admin-content-wrapper">
+        <div class="admin-container">

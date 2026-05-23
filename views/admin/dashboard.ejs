@@ -1,0 +1,116 @@
+<%- include('../partials/admin-header', { title: 'Dashboard — Zahra\'s Couture Admin' }) %>
+
+<div class="admin-dashboard">
+    <div class="admin-header-row">
+        <div>
+            <h1>Dashboard</h1>
+            <p class="subtitle">Overview of sales and catalog metrics</p>
+        </div>
+        <div class="quick-actions">
+            <a href="/admin/products/new" class="btn btn-primary" style="padding: 10px 24px; box-shadow: none;">+ Upload Product</a>
+        </div>
+    </div>
+
+    <!-- Stat Cards Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="card-icon" style="background: rgba(123, 45, 78, 0.08); color: var(--clr-primary);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            </div>
+            <div class="card-info">
+                <h3>Total Products</h3>
+                <p class="stat-val"><%= stats.totalProducts %></p>
+                <a href="/admin/products" class="stat-link">Manage Sheet →</a>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="card-icon" style="background: rgba(201, 165, 92, 0.08); color: var(--clr-accent);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </div>
+            <div class="card-info">
+                <h3>Total Orders</h3>
+                <p class="stat-val"><%= stats.totalOrders %></p>
+                <a href="/admin/orders" class="stat-link">View Orders →</a>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="card-icon" style="background: rgba(37, 211, 102, 0.08); color: var(--clr-whatsapp);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="card-info">
+                <h3>Paid Orders</h3>
+                <p class="stat-val"><%= stats.paidOrders %></p>
+                <a href="/admin/orders?status=paid" class="stat-link">View Receipts →</a>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="card-icon" style="background: rgba(37, 211, 102, 0.08); color: var(--clr-whatsapp);">
+                <strong>₹</strong>
+            </div>
+            <div class="card-info">
+                <h3>Total Sales</h3>
+                <p class="stat-val" style="color: var(--clr-whatsapp);">₹<%= stats.totalRevenue.toLocaleString('en-IN', { minimumFractionDigits: 2 }) %></p>
+                <span class="stat-desc">From completed payments</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Orders Table -->
+    <div class="admin-section-box" style="margin-top: var(--space-2xl);">
+        <h2>Recent Orders</h2>
+        
+        <% if (recentOrders.length === 0) { %>
+            <p class="no-data-msg">No orders received yet.</p>
+        <% } else { %>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Order No</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Total Amt</th>
+                            <th>Payment Status</th>
+                            <th>Order Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% recentOrders.forEach(order => { %>
+                            <tr>
+                                <td><strong><%= order.order_number %></strong></td>
+                                <td>
+                                    <div><strong><%= order.customer_name %></strong></div>
+                                    <small><%= order.customer_phone %></small>
+                                </td>
+                                <td><%= new Date(order.created_at).toLocaleDateString('en-IN') %></td>
+                                <td>₹<%= order.total.toLocaleString('en-IN', { minimumFractionDigits: 2 }) %></td>
+                                <td>
+                                    <span class="badge badge-<%= order.payment_status === 'completed' ? 'paid' : 'pending' %>">
+                                        <%= order.payment_status.toUpperCase() %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-<%= order.status %>">
+                                        <%= order.status.toUpperCase() %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="/orders/<%= order.order_number %>/invoice" target="_blank" class="table-action-btn">Invoice</a>
+                                    <% if (order.status === 'paid') { %>
+                                        <a href="/orders/<%= order.order_number %>/receipt" target="_blank" class="table-action-btn" style="background: var(--clr-whatsapp);">Receipt</a>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../partials/admin-footer') %>

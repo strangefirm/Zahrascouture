@@ -1,0 +1,117 @@
+<%- include('partials/header', { extraStyles: '/css/shop.css' }) %>
+
+<div class="shop-hero">
+    <div class="container">
+        <span class="section-tag section-tag-light">Zahra's Catalog</span>
+        <h1>Browse Our Collections</h1>
+        <p>Premium women's ethnic wear. Shop from our handpicked styles below.</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="shop-container">
+        <!-- Sidebar Filters -->
+        <aside class="shop-filters">
+            <div class="filter-group">
+                <h3>Categories</h3>
+                <div class="filter-links">
+                    <a href="/shop?category=all&sort=<%= currentSort %>" class="<%= currentCategory === 'all' ? 'active' : '' %>">All Styles</a>
+                    <a href="/shop?category=salwar&sort=<%= currentSort %>" class="<%= currentCategory === 'salwar' ? 'active' : '' %>">Salwar Kameez</a>
+                    <a href="/shop?category=anarkali&sort=<%= currentSort %>" class="<%= currentCategory === 'anarkali' ? 'active' : '' %>">Anarkali Suits</a>
+                    <a href="/shop?category=palazzo&sort=<%= currentSort %>" class="<%= currentCategory === 'palazzo' ? 'active' : '' %>">Palazzo Sets</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Product Area -->
+        <main class="shop-content">
+            <!-- Toolbar -->
+            <div class="shop-toolbar">
+                <div class="product-count">
+                    Showing <strong><%= products.length %></strong> <%= products.length === 1 ? 'product' : 'products' %>
+                </div>
+                <div class="shop-sorting">
+                    <label for="sortSelect" style="font-size: 0.9rem; color: var(--clr-text-muted); margin-right: 8px;">Sort By:</label>
+                    <select id="sortSelect" class="sort-select" onchange="location = this.value;">
+                        <option value="/shop?category=<%= currentCategory %>&sort=latest" <%= currentSort === 'latest' ? 'selected' : '' %>>Latest Arrivals</option>
+                        <option value="/shop?category=<%= currentCategory %>&sort=price-low" <%= currentSort === 'price-low' ? 'selected' : '' %>>Price: Low to High</option>
+                        <option value="/shop?category=<%= currentCategory %>&sort=price-high" <%= currentSort === 'price-high' ? 'selected' : '' %>>Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <% if (products.length === 0) { %>
+                <div class="no-products" style="grid-column: 1 / -1; text-align: center; padding: var(--space-3xl) 0;">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--clr-text-light)" stroke-width="1.5" style="margin-bottom: var(--space-md);"><circle cx="12" cy="12" r="10"></circle><path d="M8 15h8"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                    <h3 style="margin-bottom: var(--space-xs);">No products found</h3>
+                    <p style="color: var(--clr-text-muted);">We are currently updating our collections. Please check back later or contact us on WhatsApp.</p>
+                </div>
+            <% } else { %>
+                <div class="products-catalog-grid">
+                    <% products.forEach(product => { 
+                        const totalStock = (product.stock && typeof product.stock === 'object') 
+                          ? Object.values(product.stock).reduce((sum, val) => sum + val, 0) 
+                          : (parseInt(product.stock) || 0);
+                    %>
+                        <div class="product-card animate-on-scroll">
+                            <div class="product-card-img">
+                                <% if (totalStock === 0) { %>
+                                    <span class="out-of-stock-badge">Out of Stock</span>
+                                <% } %>
+                                <img src="<%= product.image.startsWith('product-') ? '/images/uploads/' + product.image : '/images/' + product.image %>" alt="<%= product.name %>">
+                            </div>
+                            <div class="product-card-info">
+                                <span class="product-category"><%= product.category.toUpperCase() %></span>
+                                <h3 class="product-title"><%= product.name %></h3>
+                                
+                                <div class="product-meta-specs">
+                                    <% if (product.fabric) { %><span><strong>Fabric:</strong> <%= product.fabric %></span><% } %>
+                                    <span><strong>Weight:</strong> <%= product.weight %>g</span>
+                                </div>
+ 
+                                <p class="prod-desc" style="font-size: 0.88rem; color: var(--clr-text-muted); margin-bottom: var(--space-md); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.5;"><%= product.description %></p>
+ 
+                                <div class="product-card-price">₹<%= product.price.toLocaleString('en-IN', { minimumFractionDigits: 2 }) %></div>
+ 
+                                <div class="product-buy-action">
+                                    <% if (totalStock > 0) { %>
+                                        <div class="size-select-wrapper" style="display: flex; align-items: center; gap: 4px;">
+                                            <select id="size-<%= product.id %>" class="size-select-box" style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--clr-border);">
+                                                <% 
+                                                  let isFirstSelected = false;
+                                                  (product.size || 'M').split(',').forEach(s => { 
+                                                     const sizeCode = s.trim().toUpperCase();
+                                                     const sizeStock = (product.stock && typeof product.stock === 'object') 
+                                                       ? (product.stock[sizeCode] !== undefined ? product.stock[sizeCode] : 0)
+                                                       : (parseInt(product.stock) || 0);
+                                                     
+                                                     let selectAttr = '';
+                                                     if (sizeStock > 0 && !isFirstSelected) {
+                                                       selectAttr = 'selected';
+                                                       isFirstSelected = true;
+                                                     }
+                                                %>
+                                                    <option value="<%= sizeCode %>" <%= sizeStock === 0 ? 'disabled' : '' %> <%= selectAttr %>>
+                                                        <%= sizeCode %><%= sizeStock === 0 ? ' (Out of Stock)' : '' %>
+                                                    </option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                        <button onclick="addToCart(<%= product.id %>, '<%= product.name %>', <%= product.price %>, '<%= product.image %>', document.getElementById('size-<%= product.id %>').value)" class="btn-add-cart">
+                                            Add to Cart
+                                        </button>
+                                    <% } else { %>
+                                        <button class="btn-add-cart" style="background: var(--clr-text-light); cursor: not-allowed;" disabled>Out of Stock</button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </main>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

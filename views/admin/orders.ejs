@@ -1,0 +1,104 @@
+<%- include('../partials/admin-header', { title: 'Order Management — Zahra\'s Couture Admin' }) %>
+
+<div class="admin-orders-page">
+    <div class="admin-header-row">
+        <div>
+            <h1>Orders & Fulfillment</h1>
+            <p class="subtitle">View purchase requests, print invoices/receipts, and track shipment status.</p>
+        </div>
+    </div>
+
+    <!-- Orders Filter / Overview Section -->
+    <div class="admin-section-box">
+        <% if (orders.length === 0) { %>
+            <p class="no-data-msg">No orders placed yet.</p>
+        <% } else { %>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Order details</th>
+                            <th>Customer & Address</th>
+                            <th>Items Purchased</th>
+                            <th>Totals</th>
+                            <th>Fulfillment Status</th>
+                            <th class="no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% 
+                        // Sort orders by date descending
+                        const sortedOrders = [...orders].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                        sortedOrders.forEach(order => { 
+                        %>
+                            <tr>
+                                <td>
+                                    <div class="order-num-block">
+                                        <strong><%= order.order_number %></strong>
+                                    </div>
+                                    <div class="order-date-block">
+                                        <small><%= new Date(order.created_at).toLocaleString('en-IN') %></small>
+                                    </div>
+                                    <div style="margin-top: 5px;">
+                                        <span class="badge badge-<%= order.payment_status === 'completed' ? 'paid' : 'pending' %>">
+                                            <%= order.payment_status.toUpperCase() %>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div><strong><%= order.customer_name %></strong></div>
+                                    <div><small><%= order.customer_phone %></small></div>
+                                    <% if (order.customer_email) { %>
+                                        <div><small><%= order.customer_email %></small></div>
+                                    <% } %>
+                                    <div class="customer-addr" style="margin-top: 5px; font-size: 13px; color: var(--clr-text-light);">
+                                        <%= order.customer_address %>, <%= order.city %> - <%= order.pincode %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <ul class="order-items-list" style="margin: 0; padding-left: 15px; font-size: 13px;">
+                                        <% order.items.forEach(item => { %>
+                                            <li>
+                                                <strong><%= item.product_name %></strong> 
+                                                <span class="spec-tag">Size: <%= item.size %></span> 
+                                                &times; <%= item.quantity %> (₹<%= item.price %>)
+                                            </li>
+                                        <% }) %>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <div style="font-size: 13px;">Subtotal: ₹<%= order.subtotal.toFixed(2) %></div>
+                                    <div style="font-size: 13px;">Shipping: ₹<%= order.shipping.toFixed(2) %></div>
+                                    <div style="font-weight: bold; color: var(--clr-primary); margin-top: 3px;">
+                                        Total: ₹<%= order.total.toLocaleString('en-IN', { minimumFractionDigits: 2 }) %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <form action="/admin/orders/<%= order.order_number %>/status" method="POST" class="status-form">
+                                        <select name="status" class="status-select select-badge-<%= order.status %>" onchange="this.form.submit()">
+                                            <option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>Pending</option>
+                                            <option value="paid" <%= order.status === 'paid' ? 'selected' : '' %>>Paid (Awaiting Shipment)</option>
+                                            <option value="shipped" <%= order.status === 'shipped' ? 'selected' : '' %>>Shipped</option>
+                                            <option value="delivered" <%= order.status === 'delivered' ? 'selected' : '' %>>Delivered</option>
+                                            <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+                                        </select>
+                                    </form>
+                                </td>
+                                <td class="no-print">
+                                    <div class="order-action-links" style="display: flex; flex-direction: column; gap: 8px;">
+                                        <a href="/orders/<%= order.order_number %>/invoice" target="_blank" class="table-action-btn">Invoice</a>
+                                        <% if (order.status === 'paid' || order.status === 'shipped' || order.status === 'delivered') { %>
+                                            <a href="/orders/<%= order.order_number %>/receipt" target="_blank" class="table-action-btn" style="background: var(--clr-whatsapp); text-align: center;">Receipt</a>
+                                        <% } %>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../partials/admin-footer') %>
