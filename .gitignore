@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Local Environment Variables
+.env
+.env*.local
+
+# System/OS files
+.DS_Store
+Thumbs.db
+
+# User Uploads at runtime (keep directories but ignore actual files)
+public/images/uploads/*
+!public/images/uploads/.gitkeep
+
+# Package locks and configs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vercel
